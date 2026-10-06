@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <div>
+        <div>
+          <h2 class="title" style="color: red">Hello</h2>
+        </div>
+        <!-- day la 1 chu thich -->
+      </div>
+      <div></div>
+      <button onclick="handleClick()">click me!</button>
+      <!-- back-tick: toan tu chuỗi nội suy - template string -->
+      <button onclick="hello(`Hoang`)">Hello Hoang</button>
+    </main>
+    <footer></footer>
+
+    <script>
+      // Cách 1: Viết JS code trong cặp thẻ script
+
+      function handleClick() {
+        console.log("xin chao");
+      }
+
+      //Function =  Chức năng -> Là nhóm các logic (1 hoặc nhiều câu lênh) thực thi một mục tiêu cụ thể -> tái sử dụng code, có tính bao đóng.
+    </script>
+
+    <!-- Cach 2: JS External -->
+    <script src="./ex03.js">
+      console.log("test");
+    </script>
+  </body>
+</html>
