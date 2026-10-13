@@ -4,12 +4,6 @@
  * Bước 1:
  */
 
-const students = [
-  { id: 1, name: "Trung", score: 8 },
-  { id: 2, name: "Nam", score: 10 },
-  { id: 3, name: "Bắc", score: 6 },
-];
-
 // for (let i = 1; i <= 10; i++) {
 //   console.log(i);
 // }
