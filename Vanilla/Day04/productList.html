@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="products">
+      <!-- js lay data ve va hien thi -->
+    </div>
+
+    <script>
+      const productsElement = document.getElementById("products");
+      function renderUI(products) {
+        let content = products
+          .map(
+            (item) =>
+              `
+            <div class="product-card">
+             <img src="${item.thumbnail}" alt="${item.title}" width="100px"/>
+             <div class="product-infor">
+               <h2>${item.title}</h2>
+               <div>Giá: ${item.price}</div>
+               <p>Mô tả: ${item.description}</p>
+               <button>Add to cart</button>
+             </div>
+            </div>
+            `,
+          )
+          .join("\n");
+        // console.log(content);
+        productsElement.innerHTML = content;
+      }
+
+      async function fetchProducts(page) {
+        try {
+          const response = await fetch(
+            `https://dummyjson.com/products?page=${page}`,
+          );
+          const data = await response.json();
+          renderUI(data.products);
+        } catch (error) {
+          console.log(error);
+        } finally {
+          console.log("xong!");
+        }
+      }
+      fetchProducts();
+    </script>
+  </body>
+</html>
