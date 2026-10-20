@@ -1,25 +1,13 @@
 import express from "express";
-import dotenv from "dotenv";
-
-dotenv.config({
-  // * tuy chon
-});
+import routes from "./src/routes/index.js";
+import { envConfig } from "./src/config/envConfig.js";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Ban dang o trang home page",
-  });
-});
+app.use("/api", routes);
 
-app.get("/about", (req, res) => {
-  res.send("Welcome to the about page!");
-});
-
-app.listen(process.env.PORT, () => {
-  console.log(`Server running at http://localhost:${process.env.PORT}`);
+app.listen(envConfig.PORT, () => {
+  console.log(`Server running at http://localhost:${envConfig.PORT}`);
 });
