@@ -14,9 +14,16 @@ export const productService = {
     return data;
   },
   update: async (id, payload) => {
-    const data = await Product.findByIdAndUpdate(id, payload, {
-      returnDocument: "after",
-    });
+    const data = await Product.findOneAndUpdate(
+      {
+        _id: id,
+        deletedAt: null,
+      },
+      payload,
+      {
+        returnDocument: "after",
+      },
+    );
     return data;
   },
   remove: async (id) => {

@@ -24,7 +24,12 @@ export const productController = {
     const data = await productService.update(req.params.id, {
       deletedAt: Date.now(),
     });
-    res.status(200).json({
+    if (!data) {
+      return res.status(400).json({
+        message: "San pham khong ton tai hoac da bi xoa",
+      });
+    }
+    return res.status(200).json({
       message: "Luu tru san pham thanh cong!",
       data,
     });
