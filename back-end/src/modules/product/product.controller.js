@@ -12,6 +12,21 @@ export const productController = {
       data,
     });
   },
-  update: async (req, res) => {},
+  update: async (req, res) => {
+    const data = await productService.update(req.params.id, req.body);
+    res.status(200).json({
+      message: "Cap nhat san pham thanh cong!",
+      data,
+    });
+  },
   remove: async (req, res) => {},
+  softDelete: async (req, res) => {
+    const data = await productService.update(req.params.id, {
+      deletedAt: Date.now(),
+    });
+    res.status(200).json({
+      message: "Luu tru san pham thanh cong!",
+      data,
+    });
+  },
 };

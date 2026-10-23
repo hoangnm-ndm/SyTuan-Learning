@@ -1,12 +1,26 @@
 import Product from "./product.model.js";
 
 export const productService = {
-  getAll: async () => {},
-  getById: async () => {},
+  getAll: async () => {
+    const data = await Product.find();
+    return data;
+  },
+  getById: async (id) => {
+    const data = await Product.findById(id);
+    return data;
+  },
   create: async (payload) => {
     const data = await Product.create(payload);
     return data;
   },
-  update: async () => {},
-  remove: async () => {},
+  update: async (id, payload) => {
+    const data = await Product.findByIdAndUpdate(id, payload, {
+      returnDocument: "after",
+    });
+    return data;
+  },
+  remove: async (id) => {
+    const data = await Product.findByIdAndDelete(id);
+    return data;
+  },
 };
