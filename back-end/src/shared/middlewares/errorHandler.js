@@ -1,4 +1,4 @@
-import { success, z } from "zod";
+import { flattenError, success, z } from "zod";
 import jwt from "jsonwebtoken";
 import { AppError } from "../errors/AppErrors.js";
 import { ERROR_CODES } from "../errors/errorCodes.js";
@@ -52,6 +52,11 @@ export default function errorHandler(err, req, res, next) {
     //   { err, method: req.method, url: req.originalUrl },
     //   "Loi khong xu ly duoc!",
     // );
+
+    res.status(500).json({
+      success: false,
+      error: { code, message, ...(details ?? { details }) },
+    });
   }
   res.status(statusCode).json({
     success: false,

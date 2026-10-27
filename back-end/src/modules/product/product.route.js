@@ -17,5 +17,6 @@ productRoutes.post(
 productRoutes.patch("/:id", productController.update);
 productRoutes.delete("/:id", productController.remove);
 productRoutes.patch("/soft-delete/:id", productController.softDelete);
+// productRoutes.patch("/restore/:id", productController.softDelete);
 
 export default productRoutes;

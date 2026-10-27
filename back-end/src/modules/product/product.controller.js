@@ -1,8 +1,21 @@
 import { productService } from "./product.service.js";
 
 export const productController = {
-  getAll: async (req, res) => {},
-  getById: async (req, res) => {},
+  getAll: async (req, res) => {
+    const data = await productService.getAll();
+    return res.status(200).json({
+      message: "Lay danh sach thanh cong",
+      data,
+    });
+  },
+  getById: async (req, res) => {
+    //* req.validated
+    const data = await productService.getById(req.params.id);
+    return res.status(200).json({
+      message: "Lay thanh cong",
+      data,
+    });
+  },
   create: async (req, res) => {
     // validation
     const data = await productService.create(req.body);
