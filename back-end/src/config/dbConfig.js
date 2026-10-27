@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { envConfig } from "./envConfig.js";
+import { env } from "./env.js";
 
 export default function connectDB() {
   mongoose
-    .connect(envConfig.DB_URI)
+    .connect(env.MONGODB_URI)
     .then(() => {
       console.log("Connect DB successfully!");
     })
@@ -11,3 +11,8 @@ export default function connectDB() {
       console.log(`Connect DB failed: ${err}`);
     });
 }
+
+export const optionSchema = {
+  versionKey: false,
+  timestamps: true,
+};

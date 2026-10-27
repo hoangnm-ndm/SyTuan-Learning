@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { optionSchema } from "../../config/dbConfig.js";
 
 const productSchema = new mongoose.Schema(
   {
@@ -25,10 +26,7 @@ const productSchema = new mongoose.Schema(
       default: null,
     },
   },
-  {
-    versionKey: false,
-    timestamps: true,
-  },
+  optionSchema,
 );
 
 const Product = mongoose.model("Product", productSchema);
