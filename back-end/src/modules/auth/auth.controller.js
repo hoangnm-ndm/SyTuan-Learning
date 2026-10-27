@@ -11,9 +11,9 @@ export const authController = {
      */
     // * Brute Force
 
-    const { fullname, email, password } = req.validated;
+    const { body } = req.validated;
 
-    const existUser = await User.findOne({ email });
+    const existUser = await User.findOne({ email: body.email });
 
     if (existUser) {
       return res.status(400).json({
@@ -22,9 +22,13 @@ export const authController = {
     }
 
     const salt = bcrypt.genSaltSync(10);
-    const hashPassword = bcrypt.hashSync(password, salt);
+    const hashPassword = bcrypt.hashSync(body.password, salt);
 
-    const user = await User.create({ email, password: hashPassword, fullname });
+    const user = await User.create({
+      email: body.email,
+      password: hashPassword,
+      fullname: body.fullname,
+    });
 
     user.password = undefined;
 

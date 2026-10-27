@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import { z } from "../lib/zod.js";
 import { ERROR_CODES } from "../errors/errorCodes.js";
-import { logger } from "../lib/logger.js";
 import { AppError } from "../errors/AppErrors.js";
 
 const MONGO_DUPLICATE_KEY = 11000;
@@ -126,10 +125,10 @@ export function errorHandler(err, req, res, next) {
   const { statusCode, code, message, details } = normalizeError(err);
 
   if (statusCode >= 500) {
-    logger.error(
-      { err, method: req.method, url: req.originalUrl },
-      "Lỗi không xử lý được",
-    );
+    // logger.error(
+    //   { err, method: req.method, url: req.originalUrl },
+    //   "Lỗi không xử lý được",
+    // );
   }
 
   res.status(statusCode).json({

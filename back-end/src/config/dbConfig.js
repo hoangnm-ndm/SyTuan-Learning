@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-import { env } from "./env.js";
+import { envConfig } from "./envConfig.js";
 
 export default function connectDB() {
   mongoose
-    .connect(env.MONGODB_URI)
+    .connect(envConfig.DB_URI)
     .then(() => {
       console.log("Connect DB successfully!");
     })
