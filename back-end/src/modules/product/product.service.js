@@ -3,6 +3,7 @@ import { AppError } from "../../shared/errors/AppErrors.js";
 import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 
 const NOT_DELETED = { deletedAt: null };
+const DELETED = { deletedAt: { $ne: null } };
 
 const assertFound = (product) => {
   if (!product) {
@@ -35,6 +36,14 @@ export const productService = {
       {
         returnDocument: "after",
       },
+    );
+    return assertFound(data);
+  },
+  restore: async (id) => {
+    const data = await Product.findOneAndUpdate(
+      { _id: id, ...DELETED },
+      { deletedAt: null },
+      { returnDocument: "after" },
     );
     return assertFound(data);
   },

@@ -29,4 +29,8 @@ export const productController = {
     });
     return ok(res, { message: "Luu tru san pham thanh cong!", data });
   },
+  restore: async (req, res) => {
+    const data = await productService.restore(req.params.id);
+    return ok(res, { message: "Khoi phuc san pham thanh cong!", data });
+  },
 };
