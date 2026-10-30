@@ -14,11 +14,11 @@ export default function validate(schemas) {
       } else {
         issues.push(...result.error.issues);
       }
-      if (issues.length > 0) throw new z.ZodError(issues);
-
-      req.validated = validated;
-      next();
     }
+    if (issues.length > 0) throw new z.ZodError(issues);
+
+    req.validated = validated;
+    next();
   };
 }
 
