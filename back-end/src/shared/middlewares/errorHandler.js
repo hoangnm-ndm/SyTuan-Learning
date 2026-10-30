@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { z } from "../lib/zod.js";
 import { ERROR_CODES } from "../errors/errorCodes.js";
 import { AppError } from "../errors/AppErrors.js";
+import { sendError } from "../utils/response.js";
 
 const MONGO_DUPLICATE_KEY = 11000;
 
@@ -131,8 +132,5 @@ export function errorHandler(err, req, res, next) {
     // );
   }
 
-  res.status(statusCode).json({
-    success: false,
-    error: { code, message, ...(details?.length && { details }) },
-  });
+  sendError(res, { statusCode, code, message, details });
 }
