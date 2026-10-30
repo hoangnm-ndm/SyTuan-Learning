@@ -14,6 +14,11 @@ const baseOptions = {
   sameSite: "lax",
 };
 
+export const getAuthTokens = (req) => ({
+  accessToken: req.cookies?.[COOKIES.accessToken.name],
+  refreshToken: req.cookies?.[COOKIES.refreshToken.name],
+});
+
 export const setAuthCookies = (res, tokens) => {
   for (const [key, { name, path }] of Object.entries(COOKIES)) {
     res.cookie(name, tokens[key], {

@@ -1,4 +1,5 @@
 import express from "express";
+import cookieParser from "cookie-parser";
 import routes from "./src/routes/index.js";
 import connectDB from "./src/config/dbConfig.js";
 import { notFound } from "./src/shared/middlewares/notFound.js";
@@ -8,6 +9,7 @@ import { errorHandler } from "./src/shared/middlewares/errorHandler.js";
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 
 connectDB();
 

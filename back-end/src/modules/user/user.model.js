@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { optionSchema } from "../../config/dbConfig.js";
+import { ROLES } from "../../shared/const/roles.js";
 
 const userSchema = new mongoose.Schema(
   {
@@ -14,6 +15,11 @@ const userSchema = new mongoose.Schema(
     fullname: {
       type: String,
       required: true,
+    },
+    role: {
+      type: String,
+      enum: Object.values(ROLES),
+      default: ROLES.MEMBER,
     },
   },
   optionSchema,

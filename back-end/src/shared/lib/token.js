@@ -27,6 +27,10 @@ export const signAuthTokens = (userId) => ({
   refreshToken: signToken("refresh", { _id: userId }),
 });
 
+/** Kiểm tra chữ ký + hạn; sai hoặc hết hạn thì ném lỗi jsonwebtoken (→ 401). */
+export const verifyToken = (type, token) =>
+  jwt.verify(token, TOKEN_OPTIONS[type].secret);
+
 /** Thời điểm hết hạn (`Date`) của token, đọc từ claim `exp`. */
 export const getTokenExpiresAt = (token) =>
   new Date(jwt.decode(token).exp * 1000);
