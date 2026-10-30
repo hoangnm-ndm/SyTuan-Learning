@@ -22,6 +22,7 @@ export const authController = {
     return ok(res, { message: "Login thanh cong!", data: user });
   },
   logout: async (req, res) => {
+    await authService.logout(getAuthTokens(req).refreshToken);
     clearAuthCookies(res);
 
     return ok(res, { message: "Logout thanh cong!" });

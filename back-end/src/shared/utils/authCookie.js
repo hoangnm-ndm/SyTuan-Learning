@@ -19,13 +19,13 @@ export const getAuthTokens = (req) => ({
   refreshToken: req.cookies?.[COOKIES.refreshToken.name],
 });
 
+// Cả hai cookie sống bằng hạn của refresh token: access token hết hạn vẫn được
+// gửi lên để server trả AUTH_TOKEN_EXPIRED (frontend biết cần refresh), thay vì
+// trình duyệt âm thầm xoá cookie làm server chỉ thấy "không có token".
 export const setAuthCookies = (res, tokens) => {
+  const expires = getTokenExpiresAt(tokens.refreshToken);
   for (const [key, { name, path }] of Object.entries(COOKIES)) {
-    res.cookie(name, tokens[key], {
-      ...baseOptions,
-      path,
-      expires: getTokenExpiresAt(tokens[key]),
-    });
+    res.cookie(name, tokens[key], { ...baseOptions, path, expires });
   }
 };
 

@@ -1,8 +1,15 @@
+import mongoose from "mongoose";
 import User from "../user/user.model.js";
+import Session from "./session.model.js";
 import { AppError } from "../../shared/errors/AppErrors.js";
 import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 import { comparePassword, hashPassword } from "../../shared/lib/password.js";
-import { signAuthTokens, verifyToken } from "../../shared/lib/token.js";
+import {
+  getTokenExpiresAt,
+  signAuthTokens,
+  tryVerifyToken,
+  verifyToken,
+} from "../../shared/lib/token.js";
 
 const toPublicUser = (user) => {
   const { password, ...publicUser } = user.toObject();
@@ -27,11 +34,25 @@ const unauthorized = () =>
 const getUserByToken = async (type, token) => {
   if (!token) throw unauthorized();
 
-  const { _id } = verifyToken(type, token);
-  const user = await User.findById(_id).select("-password");
+  const payload = verifyToken(type, token);
+  const user = await User.findById(payload._id).select("-password");
   if (!user) throw unauthorized();
 
-  return user;
+  return { user, payload };
+};
+
+// Tạo session mới và ký cặp token gắn với nó.
+const issueSession = async (userId) => {
+  const sessionId = new mongoose.Types.ObjectId();
+  const tokens = signAuthTokens(userId, sessionId);
+
+  await Session.create({
+    _id: sessionId,
+    user: userId,
+    expiresAt: getTokenExpiresAt(tokens.refreshToken),
+  });
+
+  return tokens;
 };
 
 export const authService = {
@@ -62,13 +83,32 @@ export const authService = {
       throw invalidCredentials();
     }
 
-    return { user: toPublicUser(user), ...signAuthTokens(user._id) };
+    return { user: toPublicUser(user), ...(await issueSession(user._id)) };
   },
 
-  authenticate: (accessToken) => getUserByToken("access", accessToken),
+  authenticate: async (accessToken) =>
+    (await getUserByToken("access", accessToken)).user,
 
+  // Xoay vòng: mỗi refresh token dùng đúng một lần. Session đã bị xoá (token cũ
+  // đã xoay, đã logout) → từ chối.
   refresh: async (refreshToken) => {
-    const user = await getUserByToken("refresh", refreshToken);
-    return signAuthTokens(user._id);
+    const { user, payload } = await getUserByToken("refresh", refreshToken);
+    if (!payload.jti) throw unauthorized();
+
+    const session = await Session.findOneAndDelete({
+      _id: payload.jti,
+      user: user._id,
+    });
+    if (!session) throw unauthorized();
+
+    return issueSession(user._id);
+  },
+
+  // Token hỏng/hết hạn thì không còn gì để thu hồi → bỏ qua, không báo lỗi.
+  logout: async (refreshToken) => {
+    const payload = tryVerifyToken("refresh", refreshToken);
+    if (payload?.jti) {
+      await Session.deleteOne({ _id: payload.jti, user: payload._id });
+    }
   },
 };
