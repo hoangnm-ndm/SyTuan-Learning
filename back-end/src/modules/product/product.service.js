@@ -49,6 +49,6 @@ export const productService = {
   },
   remove: async (id) => {
     const data = await Product.findByIdAndDelete(id);
-    return data;
+    return assertFound(data);
   },
 };
