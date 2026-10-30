@@ -1,11 +1,17 @@
 import Product from "./product.model.js";
-import { productQueryConfig } from "./product.query.js";
-import { paginate } from "../../shared/lib/queryBuilder.js";
+import { queryBuilder } from "../../shared/lib/queryBuilder.js";
 import { AppError } from "../../shared/errors/AppErrors.js";
 import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 
 const NOT_DELETED = { deletedAt: null };
 const DELETED = { deletedAt: { $ne: null } };
+
+const LIST_OPTIONS = {
+  searchable: ["title", "description"],
+  filterable: ["price", "stock", "createdAt"],
+  sortable: ["title", "price", "stock", "createdAt"],
+  baseFilter: NOT_DELETED,
+};
 
 const assertFound = (product) => {
   if (!product) {
@@ -19,7 +25,7 @@ const assertFound = (product) => {
 };
 
 export const productService = {
-  getAll: (query) => paginate(Product, productQueryConfig, query, NOT_DELETED),
+  getAll: (query) => queryBuilder(Product, query, LIST_OPTIONS),
   getById: async (id) => {
     const data = await Product.findOne({ _id: id, ...NOT_DELETED });
     return assertFound(data);
