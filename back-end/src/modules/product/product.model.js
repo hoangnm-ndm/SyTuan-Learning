@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 100,
-      min: 1,
+      min: 0,
     },
     deletedAt: {
       type: Date,

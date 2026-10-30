@@ -2,6 +2,8 @@ import Product from "./product.model.js";
 import { AppError } from "../../shared/errors/AppErrors.js";
 import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 
+const NOT_DELETED = { deletedAt: null };
+
 const assertFound = (product) => {
   if (!product) {
     throw new AppError({
@@ -15,11 +17,11 @@ const assertFound = (product) => {
 
 export const productService = {
   getAll: async () => {
-    const data = await Product.find();
+    const data = await Product.find(NOT_DELETED);
     return data;
   },
   getById: async (id) => {
-    const data = await Product.findById(id);
+    const data = await Product.findOne({ _id: id, ...NOT_DELETED });
     return assertFound(data);
   },
   create: async (payload) => {
@@ -28,10 +30,7 @@ export const productService = {
   },
   update: async (id, payload) => {
     const data = await Product.findOneAndUpdate(
-      {
-        _id: id,
-        deletedAt: null,
-      },
+      { _id: id, ...NOT_DELETED },
       payload,
       {
         returnDocument: "after",
