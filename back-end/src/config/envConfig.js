@@ -24,4 +24,9 @@ export const envConfig = {
   JWT_EXPIRES_IN_AT: process.env.JWT_EXPIRES_IN_AT || "15m",
   JWT_SECRET_RT: process.env.JWT_SECRET_RT,
   JWT_EXPIRES_IN_RT: process.env.JWT_EXPIRES_IN_RT || "7d",
+  // Chỉ dùng cho `npm run seed:super-admin`; script tự báo nếu chưa điền.
+  SEED_SUPER_ADMIN_EMAIL: process.env.SEED_SUPER_ADMIN_EMAIL,
+  SEED_SUPER_ADMIN_PASSWORD: process.env.SEED_SUPER_ADMIN_PASSWORD,
+  SEED_SUPER_ADMIN_FULLNAME:
+    process.env.SEED_SUPER_ADMIN_FULLNAME || "Super Admin",
 };
