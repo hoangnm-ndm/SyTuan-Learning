@@ -1,4 +1,6 @@
 import Product from "./product.model.js";
+import { productQueryConfig } from "./product.query.js";
+import { paginate } from "../../shared/lib/queryBuilder.js";
 import { AppError } from "../../shared/errors/AppErrors.js";
 import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 
@@ -17,10 +19,7 @@ const assertFound = (product) => {
 };
 
 export const productService = {
-  getAll: async () => {
-    const data = await Product.find(NOT_DELETED);
-    return data;
-  },
+  getAll: (query) => paginate(Product, productQueryConfig, query, NOT_DELETED),
   getById: async (id) => {
     const data = await Product.findOne({ _id: id, ...NOT_DELETED });
     return assertFound(data);

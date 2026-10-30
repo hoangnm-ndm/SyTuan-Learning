@@ -3,8 +3,8 @@ import { created, ok } from "../../shared/utils/response.js";
 
 export const productController = {
   getAll: async (req, res) => {
-    const data = await productService.getAll();
-    return ok(res, { message: "Lay danh sach thanh cong", data });
+    const { data, meta } = await productService.getAll(req.validated.query);
+    return ok(res, { message: "Lay danh sach thanh cong", data, meta });
   },
   getById: async (req, res) => {
     const data = await productService.getById(req.validated.params.id);

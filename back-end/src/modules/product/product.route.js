@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { productController } from "./product.controller.js";
+import { productListQuerySchema } from "./product.query.js";
 import { productCreateSchema, productUpdateSchema } from "./product.schema.js";
 import validate from "../../shared/middlewares/validate.js";
 import { idParamsSchema } from "../../shared/schemas/id.js";
@@ -10,7 +11,11 @@ const productRoutes = Router();
 
 const idParams = validate({ params: idParamsSchema });
 
-productRoutes.get("/", productController.getAll);
+productRoutes.get(
+  "/",
+  validate({ query: productListQuerySchema }),
+  productController.getAll,
+);
 productRoutes.get("/:id", idParams, productController.getById);
 
 productRoutes.use(authenticate, authorize(...ADMIN_ROLES));
