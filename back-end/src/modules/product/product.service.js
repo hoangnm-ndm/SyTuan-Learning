@@ -1,4 +1,17 @@
 import Product from "./product.model.js";
+import { AppError } from "../../shared/errors/AppErrors.js";
+import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
+
+const assertFound = (product) => {
+  if (!product) {
+    throw new AppError({
+      statusCode: 404,
+      code: ERROR_CODES.RESOURCE_NOT_FOUND,
+      message: "Khong tim thay san pham",
+    });
+  }
+  return product;
+};
 
 export const productService = {
   getAll: async () => {
@@ -7,7 +20,7 @@ export const productService = {
   },
   getById: async (id) => {
     const data = await Product.findById(id);
-    return data;
+    return assertFound(data);
   },
   create: async (payload) => {
     const data = await Product.create(payload);
@@ -24,7 +37,7 @@ export const productService = {
         returnDocument: "after",
       },
     );
-    return data;
+    return assertFound(data);
   },
   remove: async (id) => {
     const data = await Product.findByIdAndDelete(id);

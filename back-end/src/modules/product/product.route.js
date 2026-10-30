@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { productController } from "./product.controller.js";
-import { productCreateSchema } from "./product.schema.js";
+import { productCreateSchema, productUpdateSchema } from "./product.schema.js";
 import validate from "../../shared/middlewares/validate.js";
 
 const productRoutes = Router();
@@ -14,7 +14,11 @@ productRoutes.post(
   validate({ body: productCreateSchema }),
   productController.create,
 );
-productRoutes.patch("/:id", productController.update);
+productRoutes.patch(
+  "/:id",
+  validate({ body: productUpdateSchema }),
+  productController.update,
+);
 productRoutes.delete("/:id", productController.remove);
 productRoutes.patch("/soft-delete/:id", productController.softDelete);
 // productRoutes.patch("/restore/:id", productController.softDelete);

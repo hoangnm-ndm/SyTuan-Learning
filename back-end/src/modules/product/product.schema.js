@@ -6,3 +6,5 @@ export const productCreateSchema = z.object({
   description: z.string().optional(),
   stock: z.number().min(0),
 });
+
+export const productUpdateSchema = productCreateSchema.partial();

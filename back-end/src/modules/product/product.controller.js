@@ -1,6 +1,4 @@
 import { productService } from "./product.service.js";
-import { AppError } from "../../shared/errors/AppErrors.js";
-import { ERROR_CODES } from "../../shared/errors/errorCodes.js";
 import { created, ok } from "../../shared/utils/response.js";
 
 export const productController = {
@@ -14,12 +12,14 @@ export const productController = {
     return ok(res, { message: "Lay thanh cong", data });
   },
   create: async (req, res) => {
-    // validation
-    const data = await productService.create(req.body);
+    const data = await productService.create(req.validated.body);
     return created(res, { message: "Tao san pham thanh cong!", data });
   },
   update: async (req, res) => {
-    const data = await productService.update(req.params.id, req.body);
+    const data = await productService.update(
+      req.params.id,
+      req.validated.body,
+    );
     return ok(res, { message: "Cap nhat san pham thanh cong!", data });
   },
   remove: async (req, res) => {},
@@ -27,13 +27,6 @@ export const productController = {
     const data = await productService.update(req.params.id, {
       deletedAt: Date.now(),
     });
-    if (!data) {
-      throw new AppError({
-        statusCode: 404,
-        code: ERROR_CODES.RESOURCE_NOT_FOUND,
-        message: "San pham khong ton tai hoac da bi xoa",
-      });
-    }
     return ok(res, { message: "Luu tru san pham thanh cong!", data });
   },
 };
