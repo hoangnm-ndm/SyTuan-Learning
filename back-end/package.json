@@ -8,7 +8,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch index.js",
-    "seed:super-admin": "node src/scripts/seedSuperAdmin.js"
+    "db:seed": "node src/scripts/seedSuperAdmin.js"
   },
   "keywords": [
     "nodejs",
