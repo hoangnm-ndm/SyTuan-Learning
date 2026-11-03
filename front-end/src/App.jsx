@@ -8,10 +8,16 @@ function App() {
     <>
       <HeaderClient />
       <main>
-        <Button />
-        <Button />
-        <Button />
-        <Button />
+        {/* props = properties = các thuộc tính */}
+        <Button color="red" size="big">
+          Login
+        </Button>
+        <Button color="green" size="medium">
+          Register
+        </Button>
+        <Button color="violet" size="small">
+          Submit
+        </Button>
       </main>
       <FooterClient />
     </>
