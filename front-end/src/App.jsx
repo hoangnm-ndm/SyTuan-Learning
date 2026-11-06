@@ -1,30 +1,40 @@
-import { useEffect, useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router";
+
 import "./App.css";
-import { fetchProducts } from "./api/productApi";
+import HeaderClient from "./components/layout/client/HeaderClient";
+import FooterClient from "./components/layout/client/FooterClient";
+import ShopPage from "./pages/client/ShopPage";
+import AboutPage from "./pages/client/AboutPage";
+import ContactPage from "./pages/client/ContactPage";
+import PolicyPage from "./pages/client/PolicyPage";
+import NotFoundPage from "./pages/common/NotFoundPage";
+import ClientLayout from "./components/layout/client/ClientLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import AdminLayout from "./components/layout/admin/AdminLayout";
 
 function App() {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await fetchProducts();
-      setProducts(data);
-    })();
-  }, []);
   return (
     <>
-      {products.length !== 0 ? (
-        products.map((item) => (
-          <div key={item._id}>
-            <h2>{item.title}</h2>
-            <p>{item.price}</p>
-            <button>Add to cart</button>
-          </div>
-        ))
-      ) : (
-        <p>Khong co san pham nao!</p>
-      )}
+      <BrowserRouter>
+        <Routes>
+          {/* client layout */}
+          <Route path="/" element={<ClientLayout />}>
+            <Route index element={<ShopPage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/policy" element={<PolicyPage />} />
+          </Route>
 
-      <button onClick={() => setPage(page + 1)}>Next</button>
+          {/* Admin Layout */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            {/* viet tiep vao day */}
+          </Route>
+
+          {/* auth layout */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
