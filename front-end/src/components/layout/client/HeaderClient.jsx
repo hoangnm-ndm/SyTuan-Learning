@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const HeaderClient = () => {
   return (
@@ -7,19 +8,19 @@ const HeaderClient = () => {
       <nav>
         <ul>
           <li>
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
           </li>
           <li>
-            <a href="/">Shop</a>
+            <Link to="/">Shop</Link>
           </li>
           <li>
-            <a href="/about">About</a>
+            <Link to="/about">About</Link>
           </li>
           <li>
-            <a href="/contact">Contact</a>
+            <Link to="/contact">Contact</Link>
           </li>
           <li>
-            <a href="/policy">Policy</a>
+            <Link to="/policy">Policy</Link>
           </li>
         </ul>
       </nav>

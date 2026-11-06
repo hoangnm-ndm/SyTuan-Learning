@@ -11,6 +11,7 @@ import NotFoundPage from "./pages/common/NotFoundPage";
 import ClientLayout from "./components/layout/client/ClientLayout";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminLayout from "./components/layout/admin/AdminLayout";
+import ProductManagement from "./pages/admin/ProductManagement";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           {/* Admin Layout */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
+            <Route path="products" element={<ProductManagement />} />
             {/* viet tiep vao day */}
           </Route>
 
