@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { fetchProducts } from "../../api/productApi";
+import { Link } from "react-router";
 
 const ShopPage = () => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     (async () => {
       const { data } = await fetchProducts();
+      console.log(data);
       setProducts(data);
     })();
   }, []);
@@ -14,7 +16,9 @@ const ShopPage = () => {
       {products.length !== 0 ? (
         products.map((item) => (
           <div key={item._id}>
-            <h2>{item.title}</h2>
+            <Link to={item._id}>
+              <h2>{item.title}</h2>
+            </Link>
             <p>{item.price}</p>
             <button>Add to cart</button>
           </div>
