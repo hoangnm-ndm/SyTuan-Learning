@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import { softDeleteProduct } from "../../api/productApi";
 
 const ProductManagement = () => {
-  const { products, softDeleteProduct } = useProduct();
+  const { products, softDelete } = useProduct();
   // const [toggleForm, setToggleForm] = useState(false);
   return (
     <div>
@@ -32,7 +32,7 @@ const ProductManagement = () => {
                 <td>{item.price}</td>
                 <td>{item.stock}</td>
                 <td>
-                  <button onClick={() => softDeleteProduct(item._id)}>
+                  <button onClick={() => softDelete(item._id)}>
                     Ngừng kinh doanh
                   </button>{" "}
                   <Link to={`update/${item._id}`}>Cap nhat</Link>

@@ -1,36 +1,61 @@
 import React, { useEffect, useState } from "react";
-import { deleteProduct, fetchProducts } from "../api/productApi";
+import {
+  createProduct,
+  deleteProduct,
+  fetchProducts,
+  updateProduct,
+} from "../api/productApi";
 import { toast } from "react-toastify";
 
 const useProduct = () => {
   const [products, setProducts] = useState([]);
 
-  const getAllProducts = async () => {
+  const getAll = async () => {
     const { data } = await fetchProducts();
     setProducts(data);
   };
 
   useEffect(() => {
-    getAllProducts();
+    getAll();
   }, []);
 
-  const softDeleteProduct = async (id) => {
+  const softDelete = async (id) => {
     try {
       if (confirm("Hành vi này sẽ đưa sản phẩm đang kinh doanh vào lưu trữ")) {
         const data = deleteProduct(id);
-        console.log(data);
         const newProducts = products.filter((item) => item._id !== id);
-        console.log(newProducts);
         setProducts(newProducts);
-        toast.success("Xoa thanh cong san pham!");
+        toast.success(data.message);
       }
     } catch (error) {
-      console.log(error);
       toast.error(`Xoa san pham that bai: ${error.message}`);
     }
   };
 
-  return { products, setProducts, softDeleteProduct };
+  const update = async (id, payload) => {
+    try {
+      const data = await updateProduct(id, payload);
+      const newProducts = products.map((item) =>
+        item._id === id ? data.data : item,
+      );
+      setProducts(newProducts);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(`Cap nhat san pham that bai: ${error.message}`);
+    }
+  };
+
+  const add = async (payload) => {
+    try {
+      const data = await createProduct(payload);
+      setProducts([...products, data.data]);
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(`Them san pham that bai: ${error.message}`);
+    }
+  };
+
+  return { products, softDelete, update, add };
 };
 
 export default useProduct;
