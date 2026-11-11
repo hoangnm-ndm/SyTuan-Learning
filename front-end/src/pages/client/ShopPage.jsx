@@ -1,16 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { fetchProducts } from "../../api/productApi";
 import { Link } from "react-router";
+import useProduct from "../../hooks/useProduct";
 
 const ShopPage = () => {
-  const [products, setProducts] = useState([]);
-  useEffect(() => {
-    (async () => {
-      const { data } = await fetchProducts();
-      console.log(data);
-      setProducts(data);
-    })();
-  }, []);
+  const { products } = useProduct();
   return (
     <div>
       {products.length !== 0 ? (

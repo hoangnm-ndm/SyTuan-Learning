@@ -21,7 +21,6 @@ export const ClientRoutes = {
       path: "policy",
       element: <PolicyPage />,
     },
-
     {
       path: "contact",
       element: <ContactPage />,

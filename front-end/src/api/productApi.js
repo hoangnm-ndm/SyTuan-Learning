@@ -24,3 +24,13 @@ export const deleteProduct = async (id) => {
   const { data } = await api.delete(`/products/${id}`);
   return data;
 };
+
+export const softDeleteProduct = async (id) => {
+  const { data } = await api.patch(`/products/soft-delete/${id}`);
+  return data;
+};
+
+export const restoreProduct = async (id) => {
+  const { data } = await api.patch(`/products/restore/${id}`);
+  return data;
+};
